@@ -6,13 +6,13 @@ public class User {
     private Long id;
     private String name;
     private UserType type;
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     public User(String name, UserType type) {
         this.name = name;
         this.type = type;
-        this.createAt = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
 

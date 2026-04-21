@@ -112,7 +112,7 @@ public class Course {
     * */
     public void updateDescription(String newDescription) {
         if (this.status == CourseStatus.ARCHIVED) {
-            throw new IllegalArgumentException("보관되어 있는 상태의 강의는 제목을 변경할 수 없습니다.");
+            throw new IllegalArgumentException("보관되어 있는 상태의 강의는 설명을 변경할 수 없습니다.");
         }
 
         validateDescription(newDescription);

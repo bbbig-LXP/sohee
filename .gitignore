@@ -18,6 +18,7 @@ build/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+src/main/resources/config.properties
 
 ### Eclipse ###
 .apt_generated

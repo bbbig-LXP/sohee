@@ -1,6 +1,11 @@
 package com.lxp.sohee;
 
 import com.lxp.sohee.config.JDBCConnection;
+import com.lxp.sohee.course.controller.CourseController;
+import com.lxp.sohee.course.infrastructure.JdbcCourseRepository;
+import com.lxp.sohee.course.model.CourseLevel;
+import com.lxp.sohee.course.model.CourseRepository;
+import com.lxp.sohee.course.service.CourseService;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -10,6 +15,39 @@ public class Application {
         try (Connection connection = JDBCConnection.getConnection();
                 Scanner sc = new Scanner(System.in);) {
             System.out.println("연결 성공: " + connection);
+
+            CourseRepository repository = new JdbcCourseRepository(connection);
+            CourseService service = new CourseService(repository);
+            CourseController controller = new CourseController(service);
+
+            System.out.println("===== 강좌 관리 시스템 =====");
+
+            while(true) {
+                System.out.println("1. 강좌 등록 | exit. 종료");
+                System.out.print("입력: ");
+                String menu = sc.nextLine();
+
+                if (menu.equals("1")) {
+                    System.out.print("강좌 제목: ");
+                    String title = sc.nextLine();
+
+                    System.out.print("강좌 설명: ");
+                    String description = sc.nextLine();
+
+                    System.out.print("강사 ID: ");
+                    Long instructorId = Long.parseLong(sc.nextLine());
+
+                    System.out.print("난이도 (BEGINNER, INTERMEDIATE, ADVANCED): ");
+                    CourseLevel level = CourseLevel.valueOf(sc.nextLine().toUpperCase());
+
+                    controller.addCourse(title, description, instructorId, level);
+                } else if (menu.equals("exit")) {
+                    System.out.println("프로그램을 종료합니다.");
+                    break;
+                } else {
+                    System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
+                }
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

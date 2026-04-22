@@ -30,7 +30,7 @@ public class JdbcCourseSectionRepository implements CourseSectionRepository {
             int affectedRows = pstmt.executeUpdate();
 
             if (affectedRows == 0) {
-                throw new SQLException("강좌 생성 실패: 저장된 행이 없습니다.");
+                throw new SQLException("강좌 섹션 생성 실패: 저장된 행이 없습니다.");
             }
 
             try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {

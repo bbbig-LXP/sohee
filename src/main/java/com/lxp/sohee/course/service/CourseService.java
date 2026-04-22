@@ -54,8 +54,8 @@ public class CourseService {
     }
 
     // 강좌 섹션 추가
-    public void addSection(Long couserId, String title) {
-        Course course = courseRepository.findById(couserId)
+    public void addSection(Long courseId, String title) {
+        Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 강의입니다."));
 
         CourseSection newSection = CourseSection.create(course, title);

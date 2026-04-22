@@ -124,6 +124,7 @@ public class JdbcCourseRepository implements CourseRepository {
         return courses;
     }
 
+    // 강좌 1개 조회
     @Override
     public Optional<Course> findById(Long id) {
         String sql = "SELECT id, title, description, instructor_id, status, level, published_at, created_at, updated_at FROM courses WHERE id = ?";
@@ -154,8 +155,19 @@ public class JdbcCourseRepository implements CourseRepository {
         return Optional.empty();
     }
 
+    // 강의 존재 여부 확인
     @Override
     public boolean existCourseId(Long id) {
-        return false;
+        String sql = "SELECT id FROM courses WHERE id = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setLong(1, id);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                return rs.next(); // id가 있으면 true, 없으면 false
+            }
+        }catch (SQLException e) {
+            throw new RuntimeException("ID로 강의 조회 중 오류 발생", e);
+        }
     }
 }

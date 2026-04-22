@@ -1,6 +1,8 @@
 package com.lxp.sohee.course.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CourseSection {
     private Long id;
@@ -8,6 +10,8 @@ public class CourseSection {
     private String title;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    private List<Content> contents = new ArrayList<>();
 
     private CourseSection() {}
 
@@ -52,6 +56,20 @@ public class CourseSection {
         section.updatedAt = updatedAt;
 
         return section;
+    }
+
+    /*
+    * 컨텐츠 등록
+    * - 추가하려는 섹션의 ID(section_id)가 DB에 존재해야 한다
+    * */
+    public void addContent(Content content) {
+        if (this.course.getStatus() == CourseStatus.ARCHIVED) {
+            throw new IllegalArgumentException("강좌가 보관된 상태라면 컨텐츠를 등록할 수 없습니다.");
+        }
+
+        this.contents.add(content);
+
+        this.updatedAt = LocalDateTime.now();
     }
 
     public Long getId() {

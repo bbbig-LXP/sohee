@@ -53,6 +53,9 @@ public class Content {
         if (type == null) {
             throw new IllegalArgumentException("컨텐츠 상태는 필수값입니다.");
         }
+        if (status != ContentStatus.NORMAL && status != ContentStatus.HIDDEN) {
+            throw new IllegalArgumentException("콘텐츠의 초기 상태는 NORMAL 또는 HIDDEN만 가능합니다.");
+        }
     }
 
     /*
@@ -82,6 +85,25 @@ public class Content {
         return content;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public ContentType getType() {
+        return type;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
 
     public ContentStatus getStatus() {
         return status;

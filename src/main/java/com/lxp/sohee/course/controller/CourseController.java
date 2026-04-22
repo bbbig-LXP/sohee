@@ -58,4 +58,16 @@ public class CourseController {
         }
     }
 
+    // 강의 (title, description) 수정
+    public void update(Long id, String newTitle, String newDescription) {
+        try {
+            courseService.modifyCourse(id, newTitle, newDescription);
+            System.out.println("강좌 정보가 성공적으로 수정되었습니다.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("수정 불가: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("시스템 오류: " + e.getMessage());
+        }
+    }
+
 }

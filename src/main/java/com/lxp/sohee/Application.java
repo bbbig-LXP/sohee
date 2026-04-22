@@ -23,7 +23,7 @@ public class Application {
             System.out.println("===== 강좌 관리 시스템 =====");
 
             while(true) {
-                System.out.println("1. 강좌 등록 | 2. 강좌 목록 조회 | 3. 강좌 상세 조회 | exit. 종료");
+                System.out.println("1. 강좌 등록 | 2. 강좌 목록 조회 | 3. 강좌 상세 조회 | 4. 강좌 수정 | 5. 강좌 숨김 | exit. 종료");
                 System.out.print("입력: ");
                 String menu = sc.nextLine();
 
@@ -52,6 +52,23 @@ public class Application {
                         System.out.print("조회할 강의 ID를 입력하세요: ");
                         Long id = Long.parseLong(sc.nextLine());
                         controller.detail(id);
+                    } catch (NumberFormatException e) {
+                        System.out.println("ID는 숫자만 입력 가능합니다.");
+                    }
+                } else if (menu.equals("4")) {
+                    try {
+                        System.out.print("수정할 강의 ID를 입력하세요: ");
+                        Long id = Long.parseLong(sc.nextLine());
+
+                        controller.detail(id);
+
+                        System.out.println("새로운 제목 (변경 없으면 엔터): ");
+                        String newTitle = sc.nextLine();
+
+                        System.out.println("새로운 설명 (변경 없으면 엔터): ");
+                        String newDescription = sc.nextLine();
+
+                        controller.update(id, newTitle, newDescription);
                     } catch (NumberFormatException e) {
                         System.out.println("ID는 숫자만 입력 가능합니다.");
                     }

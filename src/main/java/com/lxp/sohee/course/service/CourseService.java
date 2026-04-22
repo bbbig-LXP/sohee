@@ -26,4 +26,17 @@ public class CourseService {
         return courseRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 강의입니다."));
     }
+
+    public Course modifyCourse(Long id, String newTItle, String newDescription) {
+        Course course = getCourse(id);
+
+        if (newTItle != null && !newTItle.isBlank()) {
+            course.updateTitle(newTItle);
+        }
+        if (newDescription != null && !newDescription.isBlank()) {
+            course.updateDescription(newDescription);
+        }
+
+        return courseRepository.save(course);
+    }
 }

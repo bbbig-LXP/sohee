@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +70,26 @@ public class JdbcCourseRepository implements CourseRepository {
 
     // 강좌 수정
     private Course update(Course course) {
-        return course;
+        String sql = "UPDATE courses SET title = ?, description = ?, status = ?, level = ?, updated_at = ? WHERE id = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, course.getTitle());
+            pstmt.setString(2, course.getDescription());
+            pstmt.setString(3, course.getStatus().name());
+            pstmt.setString(4, course.getLevel().name());
+            pstmt.setTimestamp(5, Timestamp.valueOf(course.getUpdatedAt()));
+            pstmt.setLong(6, course.getId());
+
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("수정할 강의를 찾을 수 없습니다. ID: " + course.getId());
+            }
+
+            return course;
+        } catch (SQLException e) {
+            throw new RuntimeException("강의 수정 중 오류 발생", e);
+        }
     }
 
     // 강좌 목록 전체 조회

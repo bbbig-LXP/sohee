@@ -28,19 +28,23 @@ public class Application {
                 String menu = sc.nextLine();
 
                 if (menu.equals("1")) {
-                    System.out.print("강좌 제목: ");
-                    String title = sc.nextLine();
+                    try {
+                        System.out.print("강좌 제목: ");
+                        String title = sc.nextLine();
 
-                    System.out.print("강좌 설명: ");
-                    String description = sc.nextLine();
+                        System.out.print("강좌 설명: ");
+                        String description = sc.nextLine();
 
-                    System.out.print("강사 ID: ");
-                    Long instructorId = Long.parseLong(sc.nextLine());
+                        System.out.print("강사 ID: ");
+                        Long instructorId = Long.parseLong(sc.nextLine());
 
-                    System.out.print("난이도 (BEGINNER, INTERMEDIATE, ADVANCED): ");
-                    CourseLevel level = CourseLevel.valueOf(sc.nextLine().toUpperCase());
+                        System.out.print("난이도 (BEGINNER, INTERMEDIATE, ADVANCED): ");
+                        CourseLevel level = CourseLevel.valueOf(sc.nextLine().toUpperCase().trim());
 
-                    controller.addCourse(title, description, instructorId, level);
+                        controller.addCourse(title, description, instructorId, level);
+                    } catch (Exception e) {
+                        System.out.println("잘못된 입력입니다.");
+                    }
                 } else if (menu.equals("exit")) {
                     System.out.println("프로그램을 종료합니다.");
                     break;

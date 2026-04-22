@@ -80,4 +80,16 @@ public class CourseController {
             System.out.println("삭제 처리 중 오류 발생: " + e.getMessage());
         }
     }
+
+    // 강의 섹션 추가
+    public void addSection(Long courseId, String title) {
+        try {
+            courseService.addSection(courseId, title);
+            System.out.println("강의 섹션이 등록되었습니다.");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println("등록 처리 중 오류 발생: " + e.getMessage());
+        }
+    }
 }

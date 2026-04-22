@@ -1,6 +1,7 @@
 package com.lxp.sohee.course.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Course {
@@ -13,6 +14,8 @@ public class Course {
     private LocalDateTime publishedAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    private List<CourseSection> sections = new ArrayList<>();
 
     private Course() {}
 
@@ -162,6 +165,20 @@ public class Course {
 
         this.status = CourseStatus.PUBLISHED;
         this.publishedAt = LocalDateTime.now();
+    }
+
+    /*
+    * 강좌 하위의 섹션 추가
+    * - 참조하는 강좌의 상태가 DRAFT 여야 한다.
+    * */
+    public void addSection(CourseSection section) {
+        if (this.status != CourseStatus.DRAFT) {
+            throw new IllegalStateException("강의 상태가 DRAFT인 경우에만 섹션을 추가할 수 있습니다.");
+        }
+
+        this.sections.add(section);
+
+        this.updatedAt = LocalDateTime.now();
     }
 
     // DB 저장/조회 시에만 사용

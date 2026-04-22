@@ -50,7 +50,7 @@ public class Content {
     }
 
     public void validateStatus(ContentStatus status) {
-        if (type == null) {
+        if (status == null) {
             throw new IllegalArgumentException("컨텐츠 상태는 필수값입니다.");
         }
         if (status != ContentStatus.NORMAL && status != ContentStatus.HIDDEN) {
@@ -63,7 +63,7 @@ public class Content {
      * - 생성자에서 유효값 검증 후 Content 객체를 생성한다
      * */
     public static Content create(CourseSection section, String title, ContentType type, ContentStatus status) {
-        return Content.create(section, title, type, status);
+        return new Content(section, title, type, status);
     }
 
     /*

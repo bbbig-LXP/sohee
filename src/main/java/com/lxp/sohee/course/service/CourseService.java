@@ -1,5 +1,9 @@
 package com.lxp.sohee.course.service;
 
+import com.lxp.sohee.course.model.Content;
+import com.lxp.sohee.course.model.ContentRepository;
+import com.lxp.sohee.course.model.ContentStatus;
+import com.lxp.sohee.course.model.ContentType;
 import com.lxp.sohee.course.model.Course;
 import com.lxp.sohee.course.model.CourseLevel;
 import com.lxp.sohee.course.model.CourseRepository;
@@ -10,10 +14,12 @@ import java.util.List;
 public class CourseService {
     private final CourseRepository courseRepository;
     private final CourseSectionRepository courseSectionRepository;
+    private final ContentRepository contentRepository;
 
-    public CourseService(CourseRepository courseRepository, CourseSectionRepository courseSectionRepository) {
+    public CourseService(CourseRepository courseRepository, CourseSectionRepository courseSectionRepository, ContentRepository contentRepository) {
         this.courseRepository = courseRepository;
         this.courseSectionRepository = courseSectionRepository;
+        this.contentRepository = contentRepository;
     }
 
     public Course createCourse(String title, String description, Long instructorId, CourseLevel level) {
@@ -62,5 +68,17 @@ public class CourseService {
         course.addSection(newSection);
 
         courseSectionRepository.save(newSection);
+    }
+
+    // 컨텐츠 추가
+    public void addContent(Long sectionId, String title, ContentType type, ContentStatus status) {
+        CourseSection section = courseSectionRepository.findById(sectionId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 섹션입니다."));
+
+        Content newContent = Content.create(section, title, type, status);
+
+        section.addContent(newContent);
+
+        contentRepository.save(newContent);
     }
 }

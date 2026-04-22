@@ -2,8 +2,12 @@ package com.lxp.sohee;
 
 import com.lxp.sohee.config.JDBCConnection;
 import com.lxp.sohee.course.controller.CourseController;
+import com.lxp.sohee.course.infrastructure.JdbcContentRepository;
 import com.lxp.sohee.course.infrastructure.JdbcCourseRepository;
 import com.lxp.sohee.course.infrastructure.JdbcCourseSectionRepository;
+import com.lxp.sohee.course.model.ContentRepository;
+import com.lxp.sohee.course.model.ContentStatus;
+import com.lxp.sohee.course.model.ContentType;
 import com.lxp.sohee.course.model.CourseLevel;
 import com.lxp.sohee.course.model.CourseRepository;
 import com.lxp.sohee.course.model.CourseSectionRepository;
@@ -30,8 +34,9 @@ public class Application {
 
     private static void initDependencies(Connection connection) {
         CourseRepository repository = new JdbcCourseRepository(connection);
+        ContentRepository contentRepository = new JdbcContentRepository(connection);
         CourseSectionRepository sectionRepository = new JdbcCourseSectionRepository(connection);
-        CourseService service = new CourseService(repository, sectionRepository);
+        CourseService service = new CourseService(repository, sectionRepository, contentRepository);
         controller = new CourseController(service);
     }
 
@@ -84,12 +89,13 @@ public class Application {
         Long id = Long.parseLong(sc.nextLine());
         controller.getCourse(id);
 
-        System.out.println("\n[ 추가 작업: 1. 섹션 등록 | Enter. 메뉴로 돌아가기 ]");
+        System.out.println("\n[ 추가 작업: 1. 섹션 등록 | 2. 콘텐츠 등록 | Enter. 메뉴로 돌아가기 ]");
         System.out.print("선택: ");
         String subMenu = sc.nextLine();
 
-        if (subMenu.equals("1")) {
-            handleAddSection(id); // 현재 조회 중인 강좌 ID를 바로 넘겨줌
+        switch (subMenu) {
+            case "1" -> handleAddSection(id);
+            case "2" -> handleAddContent();
         }
     }
 
@@ -125,5 +131,21 @@ public class Application {
         String title = sc.nextLine();
 
         controller.addSection(courseId, title);
+    }
+
+    private static void handleAddContent() {
+        System.out.print("콘텐츠를 추가할 섹션 ID: ");
+        Long sectionId = Long.parseLong(sc.nextLine());
+
+        System.out.print("콘텐츠 제목 (2~50자): ");
+        String title = sc.nextLine();
+
+        System.out.print("콘텐츠 타입 (VIDEO, DOCUMENT): ");
+        ContentType type = ContentType.valueOf(sc.nextLine().toUpperCase().trim());
+
+        System.out.print("초기 상태 (NORMAL, HIDDEN): ");
+        ContentStatus status = ContentStatus.valueOf(sc.nextLine().toUpperCase().trim());
+
+        controller.addContent(sectionId, title, type, status);
     }
 }

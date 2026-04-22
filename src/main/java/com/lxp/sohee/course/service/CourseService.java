@@ -39,4 +39,13 @@ public class CourseService {
 
         return courseRepository.save(course);
     }
+
+    // 강의 soft delete (status archive로 변경)
+    public void archiveCourse(Long id) {
+        Course course = getCourse(id);
+
+        course.archive();
+
+        courseRepository.save(course);
+    }
 }

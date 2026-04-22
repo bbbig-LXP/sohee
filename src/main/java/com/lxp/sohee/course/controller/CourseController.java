@@ -70,4 +70,15 @@ public class CourseController {
         }
     }
 
+    // 강의 삭제
+    public void delete(Long id) {
+        try {
+            courseService.archiveCourse(id);
+            System.out.println("해당 강좌가 성공적으로 보관(삭제) 처리되었습니다.");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println("삭제 처리 중 오류 발생: " + e.getMessage());
+        }
+    }
 }

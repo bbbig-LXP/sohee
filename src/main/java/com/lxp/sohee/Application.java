@@ -72,6 +72,20 @@ public class Application {
                     } catch (NumberFormatException e) {
                         System.out.println("ID는 숫자만 입력 가능합니다.");
                     }
+                }else if (menu.equals("5")) {
+                    try {
+                        System.out.print("보관(삭제)할 강의 ID를 입력하세요: ");
+                        Long id = Long.parseLong(sc.nextLine());
+
+                        System.out.print("정말로 삭제하시겠습니까? (y/n): ");
+                        if (sc.nextLine().equalsIgnoreCase("y")) {
+                            controller.delete(id);
+                        } else {
+                            System.out.println("삭제가 취소되었습니다.");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("ID는 숫자만 입력 가능합니다.");
+                    }
                 } else if (menu.equals("exit")) {
                     System.out.println("프로그램을 종료합니다.");
                     break;

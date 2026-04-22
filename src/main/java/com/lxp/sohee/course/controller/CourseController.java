@@ -1,5 +1,7 @@
 package com.lxp.sohee.course.controller;
 
+import com.lxp.sohee.course.model.ContentStatus;
+import com.lxp.sohee.course.model.ContentType;
 import com.lxp.sohee.course.model.Course;
 import com.lxp.sohee.course.model.CourseLevel;
 import com.lxp.sohee.course.service.CourseService;
@@ -86,6 +88,18 @@ public class CourseController {
         try {
             courseService.addSection(courseId, title);
             System.out.println("강의 섹션이 등록되었습니다.");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println("등록 처리 중 오류 발생: " + e.getMessage());
+        }
+    }
+
+    // 컨텐츠 추가
+    public void addContent(Long sectionId, String title, ContentType type, ContentStatus status) {
+        try {
+            courseService.addContent(sectionId, title, type, status);
+            System.out.println("컨텐츠가 등록되었습니다.");
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         } catch (Exception e) {

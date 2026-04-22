@@ -1,12 +1,16 @@
 package com.lxp.sohee.course.infrastructure;
 
 import com.lxp.sohee.course.model.Course;
+import com.lxp.sohee.course.model.CourseLevel;
 import com.lxp.sohee.course.model.CourseRepository;
+import com.lxp.sohee.course.model.CourseStatus;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,13 +72,65 @@ public class JdbcCourseRepository implements CourseRepository {
         return course;
     }
 
+    // 강좌 목록 전체 조회
     @Override
     public List<Course> findAll() {
-        return List.of();
+        List<Course> courses = new ArrayList<>();
+
+        String sql = "SELECT id, title, description, instructor_id, status, level, published_at, created_at, updated_at FROM courses";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql);
+        ResultSet rs = pstmt.executeQuery();) {
+
+            while (rs.next()) {
+                Course course = Course.reconstruct(
+                        rs.getLong("id"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getLong("instructor_id"),
+                        CourseStatus.valueOf(rs.getString("status")),
+                        CourseLevel.valueOf(rs.getString("level")),
+                        rs.getObject("published_at", LocalDateTime.class), // 타입을 명시해주면 더 안전해요
+                        rs.getObject("created_at", LocalDateTime.class),
+                        rs.getObject("updated_at", LocalDateTime.class)
+                );
+                courses.add(course);
+            }
+        } catch (SQLException e) {
+            System.err.println("전체 강의 조회 중 오류 발생: " + e.getMessage());
+            throw new RuntimeException("DB 조회 오류", e);
+        }
+
+        return courses;
     }
 
     @Override
     public Optional<Course> findById(Long id) {
+        String sql = "SELECT id, title, description, instructor_id, status, level, published_at, created_at, updated_at FROM courses WHERE id = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setLong(1, id);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    Course course = Course.reconstruct(
+                            rs.getLong("id"),
+                            rs.getString("title"),
+                            rs.getString("description"),
+                            rs.getLong("instructor_id"),
+                            CourseStatus.valueOf(rs.getString("status")),
+                            CourseLevel.valueOf(rs.getString("level")),
+                            rs.getObject("published_at", LocalDateTime.class),
+                            rs.getObject("created_at", LocalDateTime.class),
+                            rs.getObject("updated_at", LocalDateTime.class)
+                    );
+                    return Optional.of(course);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("ID로 강의 조회 중 오류 발생", e);
+        }
+
         return Optional.empty();
     }
 

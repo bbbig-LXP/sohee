@@ -23,7 +23,7 @@ public class Application {
             System.out.println("===== 강좌 관리 시스템 =====");
 
             while(true) {
-                System.out.println("1. 강좌 등록 | exit. 종료");
+                System.out.println("1. 강좌 등록 | 2. 강좌 목록 조회 | 3. 강좌 상세 조회 | exit. 종료");
                 System.out.print("입력: ");
                 String menu = sc.nextLine();
 
@@ -44,6 +44,16 @@ public class Application {
                         controller.addCourse(title, description, instructorId, level);
                     } catch (Exception e) {
                         System.out.println("잘못된 입력입니다.");
+                    }
+                } else if (menu.equals("2")) {
+                    controller.list();
+                } else if (menu.equals("3")) {
+                    try {
+                        System.out.print("조회할 강의 ID를 입력하세요: ");
+                        Long id = Long.parseLong(sc.nextLine());
+                        controller.detail(id);
+                    } catch (NumberFormatException e) {
+                        System.out.println("ID는 숫자만 입력 가능합니다.");
                     }
                 } else if (menu.equals("exit")) {
                     System.out.println("프로그램을 종료합니다.");

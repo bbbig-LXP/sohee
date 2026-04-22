@@ -164,4 +164,40 @@ public class Course {
         this.publishedAt = LocalDateTime.now();
     }
 
+    // DB 저장/조회 시에만 사용
+    public Long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Long getInstructorId() {
+        return instructorId;
+    }
+
+    public CourseStatus getStatus() {
+        return status;
+    }
+
+    public CourseLevel getLevel() {
+        return level;
+    }
+
+    public LocalDateTime getPublishedAt() {
+        return publishedAt;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
 }

@@ -3,13 +3,17 @@ package com.lxp.sohee.course.service;
 import com.lxp.sohee.course.model.Course;
 import com.lxp.sohee.course.model.CourseLevel;
 import com.lxp.sohee.course.model.CourseRepository;
+import com.lxp.sohee.course.model.CourseSection;
+import com.lxp.sohee.course.model.CourseSectionRepository;
 import java.util.List;
 
 public class CourseService {
     private final CourseRepository courseRepository;
+    private final CourseSectionRepository courseSectionRepository;
 
-    public CourseService(CourseRepository courseRepository) {
+    public CourseService(CourseRepository courseRepository, CourseSectionRepository courseSectionRepository) {
         this.courseRepository = courseRepository;
+        this.courseSectionRepository = courseSectionRepository;
     }
 
     public Course createCourse(String title, String description, Long instructorId, CourseLevel level) {
@@ -47,5 +51,16 @@ public class CourseService {
         course.archive();
 
         courseRepository.save(course);
+    }
+
+    // 강좌 섹션 추가
+    public void addSection(Long couserId, String title) {
+        Course course = courseRepository.findById(couserId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 강의입니다."));
+
+        CourseSection newSection = CourseSection.create(course, title);
+        course.addSection(newSection);
+
+        courseSectionRepository.save(newSection);
     }
 }

@@ -3,8 +3,10 @@ package com.lxp.sohee;
 import com.lxp.sohee.config.JDBCConnection;
 import com.lxp.sohee.course.controller.CourseController;
 import com.lxp.sohee.course.infrastructure.JdbcCourseRepository;
+import com.lxp.sohee.course.infrastructure.JdbcCourseSectionRepository;
 import com.lxp.sohee.course.model.CourseLevel;
 import com.lxp.sohee.course.model.CourseRepository;
+import com.lxp.sohee.course.model.CourseSectionRepository;
 import com.lxp.sohee.course.service.CourseService;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -28,7 +30,8 @@ public class Application {
 
     private static void initDependencies(Connection connection) {
         CourseRepository repository = new JdbcCourseRepository(connection);
-        CourseService service = new CourseService(repository);
+        CourseSectionRepository sectionRepository = new JdbcCourseSectionRepository(connection);
+        CourseService service = new CourseService(repository, sectionRepository);
         controller = new CourseController(service);
     }
 
@@ -36,7 +39,7 @@ public class Application {
         System.out.println("===== 강좌 관리 시스템 =====");
         while (true) {
             System.out.println("\n1. 강좌 등록 | 2. 강좌 목록 조회 | 3. 강좌 상세 조회 | 4. 강좌 수정 | 5. 강좌 숨김 | exit. 종료");
-            System.out.print("입력: ");
+            System.out.print("선택: ");
             String menu = sc.nextLine();
 
             if (menu.equalsIgnoreCase("exit")) {
@@ -80,6 +83,14 @@ public class Application {
         System.out.print("조회할 강의 ID를 입력하세요: ");
         Long id = Long.parseLong(sc.nextLine());
         controller.getCourse(id);
+
+        System.out.println("\n[ 추가 작업: 1. 섹션 등록 | Enter. 메뉴로 돌아가기 ]");
+        System.out.print("선택: ");
+        String subMenu = sc.nextLine();
+
+        if (subMenu.equals("1")) {
+            handleAddSection(id); // 현재 조회 중인 강좌 ID를 바로 넘겨줌
+        }
     }
 
     private static void handleUpdateCourse() {
@@ -107,5 +118,12 @@ public class Application {
         } else {
             System.out.println("삭제가 취소되었습니다.");
         }
+    }
+
+    private static void handleAddSection(Long courseId) {
+        System.out.print("새로운 섹션 제목 (2~50자): ");
+        String title = sc.nextLine();
+
+        controller.addSection(courseId, title);
     }
 }

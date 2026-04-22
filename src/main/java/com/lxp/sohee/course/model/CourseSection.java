@@ -33,7 +33,7 @@ public class CourseSection {
     * 강좌 섹션 생성
     * - 생성자에서 유효값 검증 후 CourseSection 객체를 생성한다
     * */
-    public CourseSection create(Course course, String title) {
+    public static CourseSection create(Course course, String title) {
         return new CourseSection(course, title);
     }
 
@@ -42,7 +42,7 @@ public class CourseSection {
     * - DB에 저장된 값을 CourseSection 객체로 복원한다.
     * - 유효값 검증된 객체를 DB에 저장하였고, 그걸 복원하는 과정이므로 빈 생성자를 통해 CourseSection 객체를 생성한다
     * */
-    public CourseSection reconstruct(Long id, Course course, String title, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public static CourseSection reconstruct(Long id, Course course, String title, LocalDateTime createdAt, LocalDateTime updatedAt) {
         CourseSection section = new CourseSection();
 
         section.id = id;
@@ -50,7 +50,7 @@ public class CourseSection {
         section.title = title;
         section.createdAt = createdAt;
         section.updatedAt = updatedAt;
-        
+
         return section;
     }
 
@@ -60,5 +60,17 @@ public class CourseSection {
 
     public Course getCourse() {
         return course;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 }

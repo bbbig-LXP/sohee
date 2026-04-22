@@ -46,12 +46,12 @@ public class Application {
                         System.out.println("잘못된 입력입니다.");
                     }
                 } else if (menu.equals("2")) {
-                    controller.list();
+                    controller.getCourses();
                 } else if (menu.equals("3")) {
                     try {
                         System.out.print("조회할 강의 ID를 입력하세요: ");
                         Long id = Long.parseLong(sc.nextLine());
-                        controller.detail(id);
+                        controller.getCourse(id);
                     } catch (NumberFormatException e) {
                         System.out.println("ID는 숫자만 입력 가능합니다.");
                     }
@@ -60,7 +60,7 @@ public class Application {
                         System.out.print("수정할 강의 ID를 입력하세요: ");
                         Long id = Long.parseLong(sc.nextLine());
 
-                        controller.detail(id);
+                        controller.getCourse(id);
 
                         System.out.println("새로운 제목 (변경 없으면 엔터): ");
                         String newTitle = sc.nextLine();

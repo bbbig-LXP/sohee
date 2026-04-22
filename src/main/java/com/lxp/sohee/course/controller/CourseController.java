@@ -23,7 +23,7 @@ public class CourseController {
     }
 
     // 강의 전체 목록 조회
-    public void list() {
+    public void getCourses() {
         try {
             List<Course> courses = courseService.findAllCourses();
 
@@ -41,7 +41,7 @@ public class CourseController {
     }
 
     // 강의 ID로 강의 1개 조회
-    public void detail(Long id) {
+    public void getCourse(Long id) {
         try {
             Course course = courseService.getCourse(id);
 

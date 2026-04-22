@@ -3,7 +3,6 @@ package com.lxp.sohee.course.controller;
 import com.lxp.sohee.course.model.Course;
 import com.lxp.sohee.course.model.CourseLevel;
 import com.lxp.sohee.course.service.CourseService;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CourseController {

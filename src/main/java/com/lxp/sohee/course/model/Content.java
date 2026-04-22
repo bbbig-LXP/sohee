@@ -39,7 +39,7 @@ public class Content {
             throw new IllegalArgumentException("섹션 제목은 필수입니다.");
         }
         if (title.length() < 2 || title.length() > 50) {
-            throw new IllegalArgumentException("섹션 제목은 2자 이상 50자 이하여야 합니다.");
+            throw new IllegalArgumentException("컨텐츠 제목은 2자 이상 50자 이하여야 합니다.");
         }
     }
 
@@ -54,7 +54,7 @@ public class Content {
             throw new IllegalArgumentException("컨텐츠 상태는 필수값입니다.");
         }
         if (status != ContentStatus.NORMAL && status != ContentStatus.HIDDEN) {
-            throw new IllegalArgumentException("콘텐츠의 초기 상태는 NORMAL 또는 HIDDEN만 가능합니다.");
+            throw new IllegalArgumentException("컨텐츠의 초기 상태는 NORMAL 또는 HIDDEN만 가능합니다.");
         }
     }
 

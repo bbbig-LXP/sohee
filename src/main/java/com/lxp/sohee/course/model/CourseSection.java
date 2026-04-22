@@ -69,7 +69,7 @@ public class CourseSection {
 
         this.contents.add(content);
 
-        this.updatedAt = LocalDateTime.now();
+        // this.updatedAt = LocalDateTime.now(); <- update 기능 추가 시 수정
     }
 
     public Long getId() {

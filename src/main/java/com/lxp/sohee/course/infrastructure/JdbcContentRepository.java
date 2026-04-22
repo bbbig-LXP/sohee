@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class JdbcContentRepository implements ContentRepository {
-    private  final Connection connection;
+    private final Connection connection;
 
     public JdbcContentRepository(Connection connection) {
         this.connection = connection;
